@@ -1,10 +1,12 @@
 return {
-	{
-		"echasnovski/mini.nvim",
-		config = function()
-			require("mini.indentscope").setup()
-			-- require("mini.animate").setup()
-			require("mini.completion").setup()
-		end,
-	},
+    {
+        "echasnovski/mini.nvim",
+        config = function()
+            require("mini.indentscope").setup()
+            require("mini.completion").setup()
+            require("mini.cursorword").setup()
+            require("mini.files").setup()
+            require("mini.move").setup()
+        end,
+    },
 }
