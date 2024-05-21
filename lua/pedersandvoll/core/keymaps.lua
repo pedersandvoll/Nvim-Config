@@ -22,3 +22,8 @@ keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) 
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
 keymap.set("n", "<C-n>", "<cmd>:lua  MiniFiles.open()<CR>", { desc = "Open files" })            -- open file organization
+
+keymap.set("n", "<leader>do", "<cmd>DiffviewOpen<CR>", { desc = "Open diffview" })
+keymap.set("n", "<leader>dc", "<cmd>DiffviewClose<CR>", { desc = "Close diffview" })
+
+keymap.set("n", "<leader>yb", "<cmd>YankBank<CR>", { desc = "Open YankBank" })

@@ -4,6 +4,7 @@ return {
     dependencies = {
         "nvim-lua/plenary.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+        "dharmx/telescope-media.nvim",
         "nvim-tree/nvim-web-devicons",
         "folke/todo-comments.nvim",
     },
@@ -62,7 +63,7 @@ return {
                     n = { ["q"] = require("telescope.actions").close },
                     i = {
                         ["<C-k>"] = actions.move_selection_previous, -- move to prev result
-                        ["<C-j>"] = actions.move_selection_next, -- move to next result
+                        ["<C-j>"] = actions.move_selection_next,     -- move to next result
                     },
                 },
 
@@ -74,12 +75,20 @@ return {
                         override_file_sorter = true,
                         case_mode = "smart_case",
                     },
+                    media = {
+                        backend = "viu", -- image/gif backend
+                        backend_options = {
+                            viu = {
+                                move = true, -- GIF preview
+                            },
+                        },
+                    },
                 },
             }
-        }
-        )
+        })
 
         telescope.load_extension("fzf")
+        telescope.load_extension("media")
 
         -- set keymaps
         local keymap = vim.keymap -- for conciseness
