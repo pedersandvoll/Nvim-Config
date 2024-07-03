@@ -97,4 +97,6 @@ opt.fillchars = { eob = "~" }
 
 vim.opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
 
+vim.o.signcolumn = "no"
+
 -- vim.diagnostic.config({ virtual_text = false })

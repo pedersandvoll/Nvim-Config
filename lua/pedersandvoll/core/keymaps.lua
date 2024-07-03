@@ -23,7 +23,15 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 
 keymap.set("n", "<C-n>", "<cmd>:lua  MiniFiles.open()<CR>", { desc = "Open files" })            -- open file organization
 
+keymap.set("n", "<C-g>", ":Neogit<CR>", { desc = "Open neogit" })
+
 keymap.set("n", "<leader>do", "<cmd>DiffviewOpen<CR>", { desc = "Open diffview" })
 keymap.set("n", "<leader>dc", "<cmd>DiffviewClose<CR>", { desc = "Close diffview" })
 
 keymap.set("n", "<leader>yb", "<cmd>YankBank<CR>", { desc = "Open YankBank" })
+
+keymap.set("n", "<M-o>", "o<Esc>=", { desc = "Make new line under" })                    -- make split windows equal width & height
+keymap.set("n", "<M-O>", "O<Esc>=", { desc = "Make new line over" })                    -- make split windows equal width & height
+
+keymap.set("n", "W", "<cmd>HopWord<CR>", { desc = "Go to any word in the buffer" })
+
