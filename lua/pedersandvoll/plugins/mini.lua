@@ -4,7 +4,7 @@ return {
         config = function()
             require("mini.indentscope").setup()
             require("mini.cursorword").setup()
-            require("mini.files").setup()
+            require("mini.notify").setup()
             require("mini.move").setup()
             require("mini.diff").setup()
         end,

@@ -6,6 +6,31 @@ local augroup = vim.api.nvim_create_augroup
 local yank_group = augroup("HighlightYank", {})
 local lsp_group = augroup("lsp_group_p", {})
 
+-- local diagnostic_lines_ns = vim.api.nvim_create_namespace("Diagnostic Lines")
+-- local orig_signs_handler = vim.diagnostic.handlers.signs
+-- local function severity_highlight(severity)
+--     return 'DiffDelete'
+-- end
+-- vim.diagnostic.handlers.signs = {
+--     show = function(_, bufnr, _, opts)
+--         -- Handle diagnostics for whole buffer for ns convenience
+--         local diagnostics = vim.diagnostic.get(bufnr)
+--         for _, diagnostic in ipairs(diagnostics) do
+--             vim.api.nvim_buf_set_extmark(
+--                 diagnostic.bufnr,
+--                 diagnostic_lines_ns,
+--                 diagnostic.lnum, 0,
+--                 { line_hl_group = severity_highlight(diagnostic.severity) }
+--             )
+--         end
+--         orig_signs_handler.show(diagnostic_lines_ns, bufnr, diagnostics, opts)
+--     end,
+--     hide = function(_, bufnr)
+--         vim.api.nvim_buf_clear_namespace(bufnr, diagnostic_lines_ns, 0, -1)
+--         orig_signs_handler.hide(diagnostic_lines_ns, bufnr)
+--     end,
+-- }
+
 autocmd("TextYankPost", {
     group = yank_group,
     pattern = "*",
@@ -17,22 +42,37 @@ autocmd("TextYankPost", {
     end,
 })
 
-local function hide_diagnostics()
-    vim.diagnostic.config({ -- https://neovim.io/doc/user/diagnostic.html
-        virtual_text = false,
-        signs = false,
-        underline = false,
-    })
-end
-local function show_diagnostics()
-    vim.diagnostic.config({
-        virtual_text = true,
-        signs = true,
-        underline = true,
-    })
-end
-vim.keymap.set("n", "<leader>dh", hide_diagnostics)
-vim.keymap.set("n", "<leader>ds", show_diagnostics)
+-- local function hide_diagnostics()
+--     vim.diagnostic.config({ -- https://neovim.io/doc/user/diagnostic.html
+--         virtual_text = false,
+--         signs = false,
+--         underline = false,
+--     })
+-- end
+-- local function show_diagnostics()
+--     vim.diagnostic.config({
+--         virtual_text = true,
+--         signs = true,
+--         underline = true,
+--     })
+-- end
+-- vim.keymap.set("n", "<leader>dh", hide_diagnostics)
+-- vim.keymap.set("n", "<leader>ds", show_diagnostics)
+
+local signs = {
+    ERROR = '🆘',
+    WARN = '💥',
+    HINT = '🗣️',
+    INFO = '👿',
+}
+
+vim.diagnostic.config {
+    virtual_text = {
+        prefix = function(diagnostic)
+            return signs[vim.diagnostic.severity[diagnostic.severity]]
+        end,
+    },
+}
 
 local keymap = vim.keymap -- for conciseness
 

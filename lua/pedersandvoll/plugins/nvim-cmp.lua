@@ -42,6 +42,7 @@ return {
             window = {
                 completion = cmp.config.window.bordered({
                     winhighlight = "Normal:Normal,FloatBorder:LspBorderBG,CursorLine:PmenuSel,Search:None",
+                    border = { "╔", "═", "╗", "║", "╝", "═", "╚", "║" }
                 }),
                 documentation = cmp.config.window.bordered({
                     winhighlight = "Normal:Normal,FloatBorder:LspBorderBG,CursorLine:PmenuSel,Search:None",

@@ -15,6 +15,7 @@ return {
         config = function()
             local cmp = require("cmp")
 
+
             local servers = {
                 lua_ls = {
                     settings = {
@@ -63,6 +64,9 @@ return {
                         require("luasnip").lsp_expand(args.body)
                     end,
                 },
+                -- window = {
+                --     completion = cmp.config.window.bordered({ border = "double" }),
+                -- },
                 mapping = cmp.mapping.preset.insert({
                     ["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
                     ["<C-j>"] = cmp.mapping.select_next_item(cmp_select),

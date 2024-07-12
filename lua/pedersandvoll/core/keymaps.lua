@@ -21,7 +21,8 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })     
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })                 --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
-keymap.set("n", "<C-n>", "<cmd>:lua  MiniFiles.open()<CR>", { desc = "Open files" })            -- open file organization
+-- keymap.set("n", "<C-n>", "<cmd>:lua  MiniFiles.open()<CR>", { desc = "Open files" })            -- open file organization
+keymap.set("n", "<C-n>", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 keymap.set("n", "<C-g>", ":Neogit<CR>", { desc = "Open neogit" })
 
@@ -30,8 +31,7 @@ keymap.set("n", "<leader>dc", "<cmd>DiffviewClose<CR>", { desc = "Close diffview
 
 keymap.set("n", "<leader>yb", "<cmd>YankBank<CR>", { desc = "Open YankBank" })
 
-keymap.set("n", "<M-o>", "o<Esc>=", { desc = "Make new line under" })                    -- make split windows equal width & height
-keymap.set("n", "<M-O>", "O<Esc>=", { desc = "Make new line over" })                    -- make split windows equal width & height
+keymap.set("n", "<M-o>", "o<Esc>=", { desc = "Make new line under" }) -- make split windows equal width & height
+keymap.set("n", "<M-O>", "O<Esc>=", { desc = "Make new line over" })  -- make split windows equal width & height
 
 keymap.set("n", "W", "<cmd>HopWord<CR>", { desc = "Go to any word in the buffer" })
-
