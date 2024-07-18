@@ -2,7 +2,7 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap
 
-keymap.set("i", "ii", "<ESC>", { desc = "Exit insert mode with ii" })
+-- keymap.set("i", "ii", "<ESC>", { desc = "Exit insert mode with ii" })
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
 -- increment/decrement numbers
@@ -22,7 +22,7 @@ keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) 
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
 -- keymap.set("n", "<C-n>", "<cmd>:lua  MiniFiles.open()<CR>", { desc = "Open files" })            -- open file organization
-keymap.set("n", "<C-n>", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+keymap.set("n", "<C-n>", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
 keymap.set("n", "<C-g>", ":Neogit<CR>", { desc = "Open neogit" })
 
@@ -35,3 +35,9 @@ keymap.set("n", "<M-o>", "o<Esc>=", { desc = "Make new line under" }) -- make sp
 keymap.set("n", "<M-O>", "O<Esc>=", { desc = "Make new line over" })  -- make split windows equal width & height
 
 keymap.set("n", "W", "<cmd>HopWord<CR>", { desc = "Go to any word in the buffer" })
+
+keymap.set("n", "*", 'yiw:let @/=@"<CR>:set hls<CR>zz')
+
+-- scissors keymaps
+vim.keymap.set("n", "<leader>se", function() require("scissors").editSnippet() end)
+vim.keymap.set({ "n", "x" }, "<leader>sa", function() require("scissors").addNewSnippet() end)

@@ -76,6 +76,10 @@ vim.diagnostic.config {
 
 local keymap = vim.keymap -- for conciseness
 
+vim.api.nvim_create_autocmd("VimEnter", {
+    command = "set laststatus=0"
+})
+
 vim.api.nvim_create_autocmd("LspAttach", {
     group = lsp_group,
     callback = function(ev)

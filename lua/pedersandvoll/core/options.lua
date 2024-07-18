@@ -3,6 +3,7 @@ vim.opt.termguicolors = true
 vim.opt.winbar = '%=%m %f'
 local opt = vim.opt
 vim.o.completeopt = "menuone,noselect"
+
 -- Ignore compiled files
 opt.wildignore = "__pycache__"
 opt.wildignore = opt.wildignore + { "*.o", "*~", "*.pyc", "*pycache*" }
@@ -103,4 +104,13 @@ vim.o.signcolumn = "no"
 -- vim.fn.sign_define('DiagnosticSignInfo', { text = '👿', texthl = 'DiagnosticSignInfo' })
 -- vim.fn.sign_define('DiagnosticSignHint', { text = '🗣️', texthl = 'DiagnosticSignHint' })
 
-vim.diagnostic.config({ virtual_text = false })
+-- Disable the status line
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--     callback = function()
+--         vim.defer_fn(function()
+--             vim.cmd("set laststatus=0")
+--         end, 100) -- Delay for 100 milliseconds
+--     end
+-- })
+
+-- vim.diagnostic.config({ virtual_text = false })

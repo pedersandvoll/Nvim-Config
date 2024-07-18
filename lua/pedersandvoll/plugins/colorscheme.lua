@@ -17,10 +17,13 @@ return {
         end,
     },
     -- {
-    --     "rose-pine/neovim",
+    --     "water-sucks/darkrose.nvim",
     --     priority = 1000,
     --     config = function()
-    --         vim.cmd.colorscheme("rose-pine-moon")
+    --         vim.cmd.colorscheme("darkrose")
+    --         vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    --         vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    --         vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
     --     end,
     -- },
     -- {

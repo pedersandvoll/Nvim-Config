@@ -1,3 +1,6 @@
+-- Disable the status line
+vim.opt.laststatus = 0
+
 return {
     {
         "nvim-lualine/lualine.nvim",
