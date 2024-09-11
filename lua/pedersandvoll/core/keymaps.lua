@@ -21,10 +21,13 @@ keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })     
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })                 --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 
--- keymap.set("n", "<C-n>", "<cmd>:lua  MiniFiles.open()<CR>", { desc = "Open files" })            -- open file organization
-keymap.set("n", "<C-n>", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
+keymap.set("n", "<C-n>", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+-- keymap.set("n", "<C-n>", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
 keymap.set("n", "<C-g>", ":Neogit<CR>", { desc = "Open neogit" })
+
+
+keymap.set("n", "<leader>sq", ":ObsidianQuickSwitch<CR>", { desc = "Open obsidian files" })
 
 keymap.set("n", "<leader>do", "<cmd>DiffviewOpen<CR>", { desc = "Open diffview" })
 keymap.set("n", "<leader>dc", "<cmd>DiffviewClose<CR>", { desc = "Close diffview" })
@@ -38,6 +41,4 @@ keymap.set("n", "W", "<cmd>HopWord<CR>", { desc = "Go to any word in the buffer"
 
 keymap.set("n", "*", 'yiw:let @/=@"<CR>:set hls<CR>zz')
 
--- scissors keymaps
-vim.keymap.set("n", "<leader>se", function() require("scissors").editSnippet() end)
-vim.keymap.set({ "n", "x" }, "<leader>sa", function() require("scissors").addNewSnippet() end)
+keymap.set("n", "<leader>mh", ":lua MiniVisits.select_path()<CR>", { desc = "Open history menu" })

@@ -20,6 +20,7 @@ return {
                 liquid = { "prettier" },
                 lua = { "stylua" },
                 python = { "isort", "black" },
+                rust = { "rustfmt" },
             },
             format_on_save = {
                 lsp_fallback = true,
@@ -30,7 +31,6 @@ return {
 
         vim.keymap.set({ "n", "v" }, "<leader>mp", function()
             conform.format({
-
                 lsp_fallback = true,
                 async = false,
                 timeout_ms = 1000,

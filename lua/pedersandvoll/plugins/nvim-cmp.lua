@@ -35,7 +35,7 @@ return {
         end
 
         lsp_kind.init()
-        ---@diagnostic disable-next-line
+        local cmp_select = { behavior = cmp.SelectBehavior.Select }
         cmp.setup({
             enabled = true,
             preselect = cmp.PreselectMode.None,
@@ -48,7 +48,6 @@ return {
                     winhighlight = "Normal:Normal,FloatBorder:LspBorderBG,CursorLine:PmenuSel,Search:None",
                 }),
             },
-            ---@diagnostic disable-next-line
             view = {
                 entries = "bordered",
             },
@@ -66,10 +65,8 @@ return {
                     behavior = cmp.ConfirmBehavior.Replace,
                     select = true,
                 }),
-                ["<tab>"] = cmp_next,
-                ["<down>"] = cmp_next,
-                ["<C-p>"] = cmp_prev,
-                ["<up>"] = cmp_prev,
+                ["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
+                ["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
             },
             sources = {
                 { name = "nvim_lsp_signature_help", group_index = 1 },

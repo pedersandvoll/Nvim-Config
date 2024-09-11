@@ -6,31 +6,6 @@ local augroup = vim.api.nvim_create_augroup
 local yank_group = augroup("HighlightYank", {})
 local lsp_group = augroup("lsp_group_p", {})
 
--- local diagnostic_lines_ns = vim.api.nvim_create_namespace("Diagnostic Lines")
--- local orig_signs_handler = vim.diagnostic.handlers.signs
--- local function severity_highlight(severity)
---     return 'DiffDelete'
--- end
--- vim.diagnostic.handlers.signs = {
---     show = function(_, bufnr, _, opts)
---         -- Handle diagnostics for whole buffer for ns convenience
---         local diagnostics = vim.diagnostic.get(bufnr)
---         for _, diagnostic in ipairs(diagnostics) do
---             vim.api.nvim_buf_set_extmark(
---                 diagnostic.bufnr,
---                 diagnostic_lines_ns,
---                 diagnostic.lnum, 0,
---                 { line_hl_group = severity_highlight(diagnostic.severity) }
---             )
---         end
---         orig_signs_handler.show(diagnostic_lines_ns, bufnr, diagnostics, opts)
---     end,
---     hide = function(_, bufnr)
---         vim.api.nvim_buf_clear_namespace(bufnr, diagnostic_lines_ns, 0, -1)
---         orig_signs_handler.hide(diagnostic_lines_ns, bufnr)
---     end,
--- }
-
 autocmd("TextYankPost", {
     group = yank_group,
     pattern = "*",
@@ -42,43 +17,37 @@ autocmd("TextYankPost", {
     end,
 })
 
--- local function hide_diagnostics()
---     vim.diagnostic.config({ -- https://neovim.io/doc/user/diagnostic.html
---         virtual_text = false,
---         signs = false,
---         underline = false,
---     })
--- end
--- local function show_diagnostics()
---     vim.diagnostic.config({
---         virtual_text = true,
---         signs = true,
---         underline = true,
---     })
--- end
--- vim.keymap.set("n", "<leader>dh", hide_diagnostics)
--- vim.keymap.set("n", "<leader>ds", show_diagnostics)
-
-local signs = {
-    ERROR = '🆘',
-    WARN = '💥',
-    HINT = '🗣️',
-    INFO = '👿',
+local border = {
+    { "╭", "FloatBorder" }, { "─", "FloatBorder" }, { "╮", "FloatBorder" },
+    { "│", "FloatBorder" }, { "╯", "FloatBorder" }, { "─", "FloatBorder" },
+    { "╰", "FloatBorder" }, { "│", "FloatBorder" }
 }
 
-vim.diagnostic.config {
-    virtual_text = {
-        prefix = function(diagnostic)
-            return signs[vim.diagnostic.severity[diagnostic.severity]]
-        end,
-    },
-}
+-- Set up the LSP handler for hover with border
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = border,
+    winhighlight = "Normal:Normal,FloatBorder:LspBorderBG,CursorLine:PmenuSel,Search:None"
+})
 
 local keymap = vim.keymap -- for conciseness
 
 vim.api.nvim_create_autocmd("VimEnter", {
     command = "set laststatus=0"
 })
+
+-- Inform Neovim how to enable and disable undercurl in wezterm
+-- vim.o.t_Cs = '\27[60m' -- equivalent to \e[60m
+-- vim.o.t_Ce = '\27[24m' -- equivalent to \e[24m
+
+-- Set highlight groups for spelling
+vim.api.nvim_set_hl(0, 'SpellBad', { sp = 'red', underline = true, undercurl = true })
+vim.api.nvim_set_hl(0, 'SpellCap', { sp = 'yellow', underline = true, undercurl = true })
+vim.api.nvim_set_hl(0, 'SpellRare', { sp = 'blue', underline = true, undercurl = true })
+vim.api.nvim_set_hl(0, 'SpellLocal', { sp = 'orange', underline = true, undercurl = true })
+
+-- Enable spell checking
+-- vim.o.spell = true
+
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = lsp_group,
@@ -87,7 +56,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         local opts = { buffer = ev.buf, silent = true }
 
-        opts.desc = "Show Ffull error"
+        opts.desc = "Show full error"
         keymap.set("n", "sfe", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 
         -- set keybinds
@@ -129,5 +98,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         opts.desc = "Restart LSP"
         keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+        -- Integrating better-diagnostic-virtual-text for the current buffer
+        -- require("better-diagnostic-virtual-text.api").setup_buf(ev.buf, {
+        --     -- Custom options can be provided here, if necessary
+        --     -- For example, you might customize the prefix or the highlight group
+        --     -- prefix = '💡',
+        --     -- highlight = 'DiagnosticVirtualTextWarning',
+        --     -- inline = false,
+        -- })
     end,
 })
