@@ -1,81 +1,142 @@
 -- Disable the status line
-vim.opt.laststatus = 0
+-- vim.opt.laststatus = 0
 
 return {
-    {
-        "nvim-lualine/lualine.nvim",
-        event = "VeryLazy",
-        opts = {
+    "nvim-lualine/lualine.nvim",
+    config = function()
+        local colors = {
+            bg = '#1f1f28', -- sumiInk
+            fg = '#dcd7ba', -- foam
+            blue = '#7fb4ca', -- springBlue
+            darkblue = '#223249', -- waveBlue
+            yellow = '#e0af68', -- springYellow
+            pink = '#d27e99', -- sakuraPink
+            transparentbg = nil,
+        }
+
+        local conditions = {
+            buffer_not_empty = function()
+                return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+            end,
+            hide_in_width = function()
+                return vim.fn.winwidth(0) > 80
+            end,
+        }
+
+        local config = {
             options = {
-                component_separators = "|",
-                section_separators = { left = "", right = "" },
-                globalstatus = true,
-                ignore_focus = {
-                    "dapui_watches",
-                    "dapui_stacks",
-                    "dapui_breakpoints",
-                    "dapui_scopes",
-                    "dapui_console",
-                    "dap-repl",
+                component_separators = "",
+                section_separators = "",
+                theme = {
+                    normal = { c = { fg = colors.fg, bg = colors.transparentbg } },
+                    inactive = { c = { fg = colors.fg, bg = colors.transparentbg } },
                 },
             },
             sections = {
-                lualine_a = {
-                    { "mode", right_padding = 2 },
-                },
-                lualine_b = { "branch", "diff", "diagnostics" },
-                lualine_c = { "filename" },
-                lualine_x = {
-                    "filetype",
-                    {
-                        function()
-                            local icon = require("lazyvim.config").icons.kinds.Copilot
-                            local status = require("copilot.api").status.data
-                            return icon .. (status.message or "")
-                        end,
-                        cond = function()
-                            if not package.loaded["copilot"] then
-                                return
-                            end
-                            local ok, clients = pcall(require("lazyvim.util").lsp.get_clients,
-                                { name = "copilot", bufnr = 0 })
-                            if not ok then
-                                return false
-                            end
-                            return ok and #clients > 0
-                        end,
-                        color = function()
-                            if not package.loaded["copilot"] then
-                                return
-                            end
-                            local Util = require("lazyvim.util")
-                            local colors = {
-                                [""] = Util.ui.fg("Special"),
-                                ["Normal"] = Util.ui.fg("Special"),
-                                ["Warning"] = Util.ui.fg("DiagnosticError"),
-                                ["InProgress"] = Util.ui.fg("DiagnosticWarn"),
-                            }
-                            local status = require("copilot.api").status.data
-                            return colors[status.status] or colors[""]
-                        end,
-                    },
-                },
-                lualine_y = { "progress" },
-                lualine_z = {
-                    {
-                        function()
-                            local loc = require("lualine.components.location")()
-                            local sel = require("lualine.components.selectioncount")()
-                            if sel ~= "" then
-                                loc = loc .. " (" .. sel .. " sel)"
-                            end
-                            return loc
-                        end,
-                        left_padding = 2,
-                    },
-                },
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c = {},
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {},
             },
-            extensions = { "neo-tree" },
-        },
-    },
+            inactive_sections = {
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c = {},
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {},
+            },
+        }
+
+        local function ins_left(component)
+            table.insert(config.sections.lualine_c, component)
+        end
+
+        local function ins_right(component)
+            table.insert(config.sections.lualine_x, component)
+        end
+
+        -- left
+        ins_left {
+            function()
+                return '▊'
+            end,
+            color = { fg = colors.yellow },
+            padding = { left = 0, right = 1 },
+        }
+
+        ins_left {
+            'mode',
+            color = function()
+                local mode_color = {
+                    n = colors.pink,
+                    i = colors.yellow,
+                    v = colors.blue,
+                    [''] = colors.blue,
+                    V = colors.blue,
+                }
+                return { fg = mode_color[vim.fn.mode()] or colors.pink }
+            end,
+            padding = { right = 1 }
+        }
+
+        ins_left { 'location' }
+
+        ins_left {
+            'filename',
+            cond = conditions.buffer_not_empty,
+            color = { fg = colors.yellow, gui = 'bold' },
+        }
+
+        ins_left {
+            'diagnostics',
+            sources = { 'nvim_diagnostic' },
+            symbols = { error = ' ', warn = ' ', info = '󰋽' },
+            diagnostics_color = {
+                error = { fg = colors.pink },
+                warn = { fg = colors.yellow },
+                info = { fg = colors.blue },
+            },
+        }
+
+        -- right
+        ins_right {
+            'fileformat',
+            fmt = string.upper,
+            icons_enabled = true,
+            color = { fg = colors.yellow, gui = 'bold' },
+        }
+
+        ins_right { 'filetype' }
+
+        ins_right {
+            'progress',
+            color = { fg = colors.fg, gui = 'bold' }
+        }
+
+        ins_right {
+            'branch',
+            icon = '',
+            color = { fg = colors.pink, gui = 'bold' },
+        }
+
+        ins_right {
+            function()
+                return os.date("%H:%M")
+            end,
+            color = { fg = colors.blue, gui = 'bold' }
+        }
+
+        ins_right {
+            function()
+                return '▊'
+            end,
+            color = { fg = colors.yellow },
+            padding = { left = 1 },
+        }
+
+        require('lualine').setup(config)
+    end
 }

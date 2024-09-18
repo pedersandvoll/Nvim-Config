@@ -105,14 +105,14 @@ vim.o.signcolumn = "no"
 -- vim.fn.sign_define('DiagnosticSignHint', { text = '🗣️', texthl = 'DiagnosticSignHint' })
 
 -- Disable the status line
-vim.api.nvim_create_autocmd("VimEnter", {
-    callback = function()
-        vim.defer_fn(function()
-            vim.cmd("set laststatus=0")
-        end, 100) -- Delay for 100 milliseconds
-    end
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--     callback = function()
+--         vim.defer_fn(function()
+--             vim.cmd("set laststatus=0")
+--         end, 100) -- Delay for 100 milliseconds
+--     end
+-- })
 
 opt.conceallevel = 1
 
-vim.diagnostic.config({ virtual_text = false })
+-- vim.diagnostic.config({ virtual_text = false })

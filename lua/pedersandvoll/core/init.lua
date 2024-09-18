@@ -31,9 +31,9 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 
 local keymap = vim.keymap -- for conciseness
 
-vim.api.nvim_create_autocmd("VimEnter", {
-    command = "set laststatus=0"
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--     command = "set laststatus=0"
+-- })
 
 -- Inform Neovim how to enable and disable undercurl in wezterm
 -- vim.o.t_Cs = '\27[60m' -- equivalent to \e[60m
